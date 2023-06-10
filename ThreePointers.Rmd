@@ -11,7 +11,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse) # convenient wrapper library for our data parsing
 library(readxl) # this is to read in our excel (.xlsx) data
-library(kableExtra) # this is to format our outputted tables #hi
+library(kableExtra) # this is to format our outputted tables #hello
 ```
 
 
