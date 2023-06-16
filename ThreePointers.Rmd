@@ -18,44 +18,62 @@ library(kableExtra) # this is to format our outputted tables #one more time
 
 # Introduction
 
-[Placeholder]
+The NBA is the premier professional basketball association in which the world's best athletes compete against one another in a gauntlet pseudo-round-robin format to be claimed as the world's best basketball team. To make it to the NBA, each player must possess unique and substantial skill to render themselves competitive in the ever-changing sport of basketball. One substantial aspect to the player is how flexible are they on offense? To what extent can they knock down a shot reliably? The more flexibility a player boasts, the more crafty and unpredicatable the offense becomes, thereby destroying even the most staunch defenses. 
 
 ### The Focus Question
 
-[Placeholder]
+To what extent has the three-point shot revolutionized the way professional basketball is played today?
 
 ### Motivation
 
-[Placeholder]
+If one were to watch an NBA game from the 1970s, they would witness a lot of, for lack of a formal term, "bully-ball". Players would face-off in sheer strength and athletic battles to fight to the rim to score a crafty interior two-point shot. In fact, the term "interior" was virtually non-existent in this era of the NBA as there was no "exterior" or playable "outside shot". However, from the 1979 NBA season onwards, to counteract low-scoring games, the NBA created the three-point shot. This one addition has universally been recognized as the most impactful sport-altering addition there is. Today, even big-men, who historically have been relied as rim-wreckers and defensive walls, are challenged to develop an outside shot and stretch their defensive presence to remain competitive in what is now dubbed as a "positionless" league, a league that lives by the three and dies by the three. 
 
 
 # Background
 
 ### About the Original Data
 
-[Placeholder]
+
+The original data was scraped together from *Sports Reference* specifically *Basketball Reference*. Using their **Team and Opponent Stats** sub-section data, ^[Basketball Reference. (2023). Boston Celtics Team and Opponent Stats [Dataset; Website]. Scraped 1979-2023 Regular Season Data. https://www.basketball-reference.com/teams/BOS/] the excel sheet was crafted by obtaining their tables in a CSV format and saving it as a CSV format to our local machines. 
+
+**NOTE** This data will be made available to our Github ^[Link to Github: https://github.com/psvogeti/SportsStatsDiscovery/tree/data]
+
 
 ### Data Description
 
-[Placeholder]
+The data that we chose to focus our excursion on contains the box-score data of the Boston Celtics from the beginning of the 1979 regular season through the 2023 regular season. 
+
+The Boston Celtics are a franchise riddled with legendary basketball history. Success is virtually synoymous with this franchise. With a team so iconic and exemplary in success as the Celtics are, they are a fantastic model team for the NBA as they always craft their roster to meet the needs of the evolving game of basketball. 
 
 ### The Key Variables
 
 * The key variables from this data set we will use for this excursion: 
-  - `var` defintion
- 
+  - `season` the particular Celtics regular season 
+  - `fgm` the total number of made field goals for that `season`
+  - `fga` the total number of field goal attempts for that `season`
+  - `fg_pct` the ratio between `fgm` and `fga` as a percentage
+  - `thrpt_m` the total number of three pointers made for that `season`
+  - `thrpt_a` the total number of three pointers attempted for that `season`
+  - `thr_pct` the ratio between `thrpt_m` and `thrpt_a` as a percentage
+  - `twopt_m` the total number of two pointers made for that `season`
+  - `twopt_a` the total number of two pointers attempted for that `season`
+  - `two_pct` the ratio between `twopt_m` and `twopt_a` as a percentage
+  - `pts` the total number of points for that `season`
   
 
 ### Assumptions and Unusuality
 
-[Placeholder]
+One vital assumption to make here is that what holds for the Celtics holds for the rest of the NBA. The Celtics are just one of 30 teams in the NBA. Given a franchise as storied as theirs, they've built their own brand of basketball that no other NBA franchise posesses. As a result, their style of gameplay will consistently differ than that of other NBA franchises by the season. 
+
+Furthermore, an unusuality of this dataset as that several regular seasons have been omitted. Those seasons, the '94-'95, '95-'96, '96-'97, NBA regular seasons. These seasons actually changed the distance of the three-point shot from 23' 9" to a uniform 22' to increase average scoring before going back in the 97'-98' regular season to today's distance of 23' 9". As a result, to avoid any discrepancies, we omitted these seasons for the sake of consistency and data control. 
+
+Finally, one more unusuality is that the 2011-12 NBA regular season only sees 66 games played. This is because of the late start to this NBA regular season which forced the league to shorten the length of the season. As a result, numbers for these year are noticeably lower than other comparable years. However, since the three-point shot is still at its current fixed distance during this season, this data does matter to the excurision. 
 
 
 
 ### Report Intentions
 
-[Placeholder]
-
+The rest of the report will deal with using the data to quantify the change in usage of the three-point shot over time and discussing these findings. 
 
 
 # Analysis
