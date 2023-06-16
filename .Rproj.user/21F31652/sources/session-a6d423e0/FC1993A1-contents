@@ -1,0 +1,113 @@
+---
+title: "Three_Pointers"
+author: "Pranav Vogeti, Niko Klekas"
+date: "2023-06-05"
+output: html_document
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse) # convenient wrapper library for our data parsing
+library(readxl) # this is to read in our excel (.xlsx) data
+library(kableExtra) # this is to format our outputted tables #one more time
+```
+
+
+
+# Introduction
+
+[Placeholder]
+
+### The Focus Question
+
+[Placeholder]
+
+### Motivation
+
+[Placeholder]
+
+
+# Background
+
+### About the Original Data
+
+[Placeholder]
+
+### Data Description
+
+[Placeholder]
+
+### The Key Variables
+
+* The key variables from this data set we will use for this excursion: 
+  - `var` defintion
+ 
+  
+
+### Assumptions and Unusuality
+
+[Placeholder]
+
+
+
+### Report Intentions
+
+[Placeholder]
+
+
+
+# Analysis
+
+### Data Cleanup
+
+[Placeholder]
+
+```{r}
+
+```
+
+
+### Data Summaries
+
+[Placeholder]
+
+
+```{r}
+
+```
+
+### Data Analysis
+
+```{r}
+
+```
+
+
+# Discussion
+
+[Placeholder]
+
+### Overall Conclusions
+
+#### [Placeholder] Discussion
+
+[Placeholder]
+
+### Shortcomings and Limitations
+
+[Placeholder]
+
+
+### Alternate Approaches
+
+[Placeholder]
+
+
+### Potential Future Directions
+
+[Placeholder]
+
+
+# References
