@@ -1,5 +1,5 @@
 ---
-title: "Three_Pointers"
+title: "Three Pointers and Their Effect on the NBA"
 author: "Pranav Vogeti, Niko Klekas"
 date: "2023-06-05"
 output: html_document
@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse) # convenient wrapper library for our data parsing
 library(readxl) # this is to read in our excel (.xlsx) data
 library(kableExtra) # this is to format our outputted tables #one more time
+library(ggplot2)
 ```
 
 
@@ -43,7 +44,7 @@ The original data was scraped together from *Sports Reference* specifically *Bas
 
 The data that we chose to focus our excursion on contains the box-score data of the Boston Celtics from the beginning of the 1979 regular season through the 2023 regular season. 
 
-The Boston Celtics are a franchise riddled with legendary basketball history. Success is virtually synoymous with this franchise. With a team so iconic and exemplary in success as the Celtics are, they are a fantastic model team for the NBA as they always craft their roster to meet the needs of the evolving game of basketball. 
+The Boston Celtics are a franchise riddled with legendary basketball history. Success is virtually synonymous with this franchise. With a team so iconic and exemplary in success as the Celtics are, they are a fantastic model team for the NBA as they always craft their roster to meet the needs of the evolving game of basketball. 
 
 ### The Key Variables
 
@@ -54,10 +55,10 @@ The Boston Celtics are a franchise riddled with legendary basketball history. Su
   - `fg_pct` the ratio between `fgm` and `fga` as a percentage
   - `thrpt_m` the total number of three pointers made for that `season`
   - `thrpt_a` the total number of three pointers attempted for that `season`
-  - `thr_pct` the ratio between `thrpt_m` and `thrpt_a` as a percentage
+  - `thrpt_pct` the ratio between `thrpt_m` and `thrpt_a` as a percentage
   - `twopt_m` the total number of two pointers made for that `season`
   - `twopt_a` the total number of two pointers attempted for that `season`
-  - `two_pct` the ratio between `twopt_m` and `twopt_a` as a percentage
+  - `twopt_pct` the ratio between `twopt_m` and `twopt_a` as a percentage
   - `pts` the total number of points for that `season`
   
 
@@ -80,52 +81,187 @@ The rest of the report will deal with using the data to quantify the change in u
 
 ### Data Cleanup
 
-[Placeholder]
+After cleaning, the first several rows of our data set look like this: 
 
-```{r}
+```{r, echo = FALSE}
+# import the data
+
+raw_data = read.csv("Bos_Box_Data_80_23.csv")
+
+#clean the data --> make column names match our descriptions & only select those columns 
+
+boston = raw_data %>%
+  rename(season = Season) %>%
+  rename(fgm = FG) %>%
+  rename(fga = FGA) %>%
+  rename(fg_pct = FG.) %>%
+  rename(thrpt_m = X3P) %>%
+  rename(thrpt_a = X3PA) %>%
+  rename(thrpt_pct = X3P.) %>%
+  rename(twopt_m = X2P) %>%
+  rename(twopt_a = X2PA) %>%
+  rename(twopt_pct = X2P.) %>%
+  rename(pts = PTS) %>% 
+  select(1,4:12, 24)
+
+#also deleted a duplicate row 
+boston = boston[-41, ]
+
+#display cleaned data 
+head(boston)
 
 ```
 
-
 ### Data Summaries
 
-[Placeholder]
+A summary of the following averages: volume (quantity) of shot attempts, the respective percentages of those attempts, and points scored across all seasons in the data set.  
+
+```{r, echo = FALSE}
+all_avgs = boston %>%
+  summarize(avg_fga = mean(fga),
+            avg_fg_pct = mean(fg_pct),
+            avg_2pt_a = mean(twopt_a), 
+            avg_2pt_pct = mean(twopt_pct),
+            avg_3pt_a = mean(thrpt_a),
+            avg_3pt_pct = mean(thrpt_pct),
+            avg_pts = mean(pts))
+
+all_avgs
+```
 
 
-```{r}
+Data for the 20 most recent seasons (the first half): 
 
+```{r, echo = FALSE}
+n_rows = nrow(boston)
+first_half_rows = boston[1:(n_rows/2), ]
+second_half_rows = boston[((n_rows/2) + 1):n_rows, ]
+
+first_half_avgs = first_half_rows %>%
+  summarize(avg_fga = mean(fga),
+            avg_fg_pct = mean(fg_pct),
+            avg_2pt_a = mean(twopt_a), 
+            avg_2pt_pct = mean(twopt_pct),
+            avg_3pt_a = mean(thrpt_a),
+            avg_3pt_pct = mean(thrpt_pct),
+            avg_pts = mean(pts))
+
+first_half_avgs
+```
+
+
+Data for the 20 seasons before that (the second half):
+
+```{r, echo=FALSE}
+second_half_avgs = second_half_rows %>%
+  summarize(avg_fga = mean(fga),
+            avg_fg_pct = mean(fg_pct),
+            avg_2pt_a = mean(twopt_a), 
+            avg_2pt_pct = mean(twopt_pct),
+            avg_3pt_a = mean(thrpt_a),
+            avg_3pt_pct = mean(thrpt_pct),
+            avg_pts = mean(pts))
+
+second_half_avgs
 ```
 
 ### Data Analysis
 
-```{r}
+```{r, echo = FALSE}
 
+boston$season = factor(boston$season, levels = rev(unique(boston$season)))
+
+attempts = ggplot(boston, aes(x = season, y = thrpt_a)) + 
+  geom_bar(stat = "identity", fill = "darkgreen") + 
+  labs(title = "Celtics 3-Point Attempts by Season",
+       x = "Season", 
+       y = "3-Point Attempts") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  
+percentages = ggplot(boston, aes(x = season, y = thrpt_pct)) + 
+  geom_line(color = "blue", group = 1) + 
+  labs(title = "Celtics 3-Point Percentage by Season",
+       x = "Season",
+       y = "3-Point Percentage") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+attempts
+percentages 
+```
+
+**Simple Linear Regression** 
+
+*Regression Equation*
+
+```{r, include=FALSE}
+regression_model = lm(thrpt_a~twopt_a, data = boston)
+coef = coef(regression_model)
+
+coef
 ```
 
 
-# Discussion
+$$
+\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i
+$$
 
-[Placeholder]
+- $y_i$ is the predicted 2-point attempts
+- $x_i$ is three-point attempts, which is the predictor of 2-point attempts
+- $\hat{\beta}_0$ is the estimated intercept, and has a value of 4952.10
+- $\hat{\beta}_1$ is the estimated slope, and has a value of -0.67 
+
+3-point attempts is the explanatory variable, and 2-point attempts is the response variable. The estimated intercept means that when 3-point attempts are equal to 0, the predicted 2-point attempts are 4952.10. The estimated slope means that for every 1-unit increase in 3-point attempts, the predicted 2-point attempts decrease by 0.67 units.
+
+```{r, echo = FALSE}
+
+first_half_seasons = tail(unique(boston$season), 20)
+second_half_seasons = head(unique(boston$season), 20)
+
+boston$half = ifelse(boston$season %in% first_half_seasons, "First Half", "Second Half")
+
+ggplot(boston, aes(x = thrpt_a, y = twopt_a, color = half)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, fullrange = TRUE, aes(group = 1), color = "red") +
+  labs(title = "Relationship Between 3-Point Attempts and 2-Point Attempts",
+       subtitle = "1994-95 to 1996-97 Seasons Excluded",
+       x = "3-Point Attempts",
+       y = "2-Point Attempts") +
+  scale_color_manual(values = c("blue", "magenta"),
+                     breaks = c("First Half", "Second Half"),
+                     labels = c("1980-81 to 2002-03", "2003-04 to 2022-23")) +
+  guides(color = guide_legend(title = "Season Group"))
+```
+
+*Correlation Coefficient*
+
+```{r, echo = FALSE}
+r = cor(boston$thrpt_a, boston$twopt_a)
+r
+```
+
+### Discussion
+
+The bar graph for the Celtics' 3-point attempts by season illustrates a significant upward trend in 3-point shooting. In particular, the teams' attempts during the first few and last few seasons demonstrate the magnitude of this trend. During the first 10 seasons, the Celtics only shot 500 3-pointers twice. In contrast, during the last 10 seasons, the Celtics shot over 2000 3-pointers 9 times. Essentially, the franchise has quadrupled it's 3-point output in 40 years' time. Interestingly, the team has also shot over 3000 3-points in the two most recent seasons, perhaps indicating that the peak in 3 point volume is yet to come. 
+
+The Celtics' 3-point percentage by season illustrates a general uptick in long-range shooting efficiency, as well as more consistency. The first half of the data has a relatively large yearly variation in 3-point percentage, suggesting that the Celtics had not yet refined their shooting mechanics from outside. The team shot above 35% on 3's only 6 times in the first 20 years, but shot above 35% on 3's 16 times in the last 20 years. For reference, 35% is considered an approximate cutoff for a quality 3-point shooter in the modern NBA. Thus, the combination of less year-by-year variability in 3-point percentage and the general increase in efficiency suggests that Celtics players refined their mechanics and incorporated the 3-ball into their gameplans over time.  
+
+Regarding our regression model, our scatter plot shows a negatively-sloped regression line with an r value of -0.829, indicting a strong negative correlation between 3-point attempts and 2-point attempts. That is, as have begun taking a larger quantity of their shots from 3-point distance, the proportion of their 2-point attempts has diminished. Furthermore, the estimated intercept of 4952.11 indicates that a when a team attempts 0 3's over the course of a season, they are predicted to take 4925.11 2-pointers. The estimated slope of -0.67 indicates that for every 1-unit increase in 3-point attempts, the predicted 2-point attempts decrease by 0.67 units. Additionally, the scatter plot reinforces our findings that the massive increase in 3-point attempts, and associated decline in 2-point attempts, is primarily associated with the more recent decades in the data set. Overall, this finding appears logical; a team can only attempt so many shots in a 48-minute game, so using attempts on 3-pointers directly limits the total attempts from 2-point range. 
+
 
 ### Overall Conclusions
 
-#### [Placeholder] Discussion
 
-[Placeholder]
+**Shortcomings and Limitations**
 
-### Shortcomings and Limitations
+Our analysis only incorporates a small proportion of all the data that the NBA has to offer. Although the Boston Celtics followed the general league-wide trend of taking a higher volume of 3-pointers at a higher percentage over time, we cannot confidently extrapolate our findings to the 29 other NBA teams. This is because certain teams, such as the Golden State Warriors, embraced the three-pointer earlier than others. Furthermore, the Celtics have been a very successful franchise, winning 4 championships and making many deep playoff runs in the time frame of our data. Since most teams have not matched the success of the Celtics in the last few decades, we cannot draw significant insights about how the 3-pointer changed the collecitve NBA landscape. 
 
-[Placeholder]
+**Alternate Approaches**
 
+We could scrape more per-game data (e.g., the Celtics averaging 20 threes-per-game in a given season) in addition to the seasonal totals and percentages in our current data set. In some capacity, per-game averages are easier to understand than totals because they illustrate a team's performance on a game-by-game basis rather than a single summation of its collective efforts. 
 
-### Alternate Approaches
+**Potential Future Directions**
 
-[Placeholder]
-
-
-### Potential Future Directions
-
-[Placeholder]
+For future, larger-scale projects, we could collect data from all 30 NBA teams, including per-game stats and season totals. This approach would grant us a massive sample of data to work with, which in turn would allow us to develop perceptive insights about the league as a whole. Additionally, we could collect playoff data from several decades to compare and contrast our regular season findings to the postseason.Lastly, we could collect data about the 3-point attempt rates and percentages of players at each position across several decades. It would be interesting learn when front court and back court players began incorporating the 3-ball into their respective scoring repertoires. Moreover, exploring changes in the volume, percentage, and distribution of 3-pointers among players at different positions could help us illustrate how NBA basketball became the relatively positionless game it is today.  
 
 
 # References
