@@ -109,6 +109,9 @@ boston = boston[-41, ]
 #display cleaned data 
 head(boston)
 
+
+
+
 ```
 
 ### Data Summaries
@@ -166,6 +169,12 @@ second_half_avgs
 
 ### Data Analysis
 
+#### Three-Point Study 
+
+Here, we investigate the numbers behind the three-point shot of the Celtics. Specifically, we look at the volume of three point shots taken over the season and also look at the accuracy of the shot. 
+
+Both give an implied understanding that, for the same shot, if the volume has increased and the accuracy has also increased, it is assumed to be more integral to the overall team offense and therefore more plays are built around the three point shot rather than the average mid-range shot. 
+
 ```{r, echo = FALSE}
 
 boston$season = factor(boston$season, levels = rev(unique(boston$season)))
@@ -187,6 +196,14 @@ percentages = ggplot(boston, aes(x = season, y = thrpt_pct)) +
 attempts
 percentages 
 ```
+
+
+#### Three Pointers vs Two Pointers
+
+In this section, we explore the relationship between two pointers and three pointers, as an effect-response relationship, and through the exploration of their ratios and differences. 
+
+This section removes the implied interpretations and uncovers shot-calling through these data vectors, allowing us to draw better conclusions about the long-distance shot and its impact on today's modern day game. 
+
 
 **Simple Linear Regression** 
 
@@ -238,6 +255,52 @@ r = cor(boston$thrpt_a, boston$twopt_a)
 r
 ```
 
+
+**Shot Comparison Analysis**
+
+```{r thr-two-diff, echo = FALSE}
+shot_attempts_data <- boston %>%
+  select(season, fga, thrpt_a, twopt_a, pts) %>%
+  group_by(season) %>%
+  mutate(
+    thr_a_diff = thrpt_a - twopt_a, 
+    thr_ratio = thrpt_a / fga,
+    two_ratio = twopt_a / fga
+  )
+
+
+```
+
+```{r thr-two-graphs, echo = FALSE}
+
+ggplot(shot_attempts_data, aes(x = season, y = thr_a_diff)) + 
+  geom_col(fill = "darkgreen") + 
+  labs(title = "Celtics Three Point Shot Attempt Differential By Season",
+       subtitle = "1980 - 2023 NBA Regular Seasons",
+       x = "Season", 
+       y = "Three Point Attempt Differential") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+ggplot(shot_attempts_data, aes(x = season, y = thr_ratio)) + 
+  geom_col(fill = "darkgreen") + 
+  labs(title = "Celtics Three Point Shot Attempt Ratio By Season",
+       subtitle = "1980 - 2023 NBA Regular Seasons",
+       x = "Season", 
+       y = "Three Point Attempt Ratio") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+ggplot(shot_attempts_data, aes(x = season, y = two_ratio)) + 
+  geom_col(fill = "darkgreen") + 
+  labs(title = "Celtics Two Point Shot Attempt Ratio By Season",
+       subtitle = "1980 - 2023 NBA Regular Seasons",
+       x = "Season", 
+       y = "Two Point Attempt Ratio") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+
+
+
 ### Discussion
 
 The bar graph for the Celtics' 3-point attempts by season illustrates a significant upward trend in 3-point shooting. In particular, the teams' attempts during the first few and last few seasons demonstrate the magnitude of this trend. During the first 10 seasons, the Celtics only shot 500 3-pointers twice. In contrast, during the last 10 seasons, the Celtics shot over 2000 3-pointers 9 times. Essentially, the franchise has quadrupled it's 3-point output in 40 years' time. Interestingly, the team has also shot over 3000 3-points in the two most recent seasons, perhaps indicating that the peak in 3 point volume is yet to come. 
@@ -245,6 +308,14 @@ The bar graph for the Celtics' 3-point attempts by season illustrates a signific
 The Celtics' 3-point percentage by season illustrates a general uptick in long-range shooting efficiency, as well as more consistency. The first half of the data has a relatively large yearly variation in 3-point percentage, suggesting that the Celtics had not yet refined their shooting mechanics from outside. The team shot above 35% on 3's only 6 times in the first 20 years, but shot above 35% on 3's 16 times in the last 20 years. For reference, 35% is considered an approximate cutoff for a quality 3-point shooter in the modern NBA. Thus, the combination of less year-by-year variability in 3-point percentage and the general increase in efficiency suggests that Celtics players refined their mechanics and incorporated the 3-ball into their gameplans over time.  
 
 Regarding our regression model, our scatter plot shows a negatively-sloped regression line with an r value of -0.829, indicting a strong negative correlation between 3-point attempts and 2-point attempts. That is, as have begun taking a larger quantity of their shots from 3-point distance, the proportion of their 2-point attempts has diminished. Furthermore, the estimated intercept of 4952.11 indicates that a when a team attempts 0 3's over the course of a season, they are predicted to take 4925.11 2-pointers. The estimated slope of -0.67 indicates that for every 1-unit increase in 3-point attempts, the predicted 2-point attempts decrease by 0.67 units. Additionally, the scatter plot reinforces our findings that the massive increase in 3-point attempts, and associated decline in 2-point attempts, is primarily associated with the more recent decades in the data set. Overall, this finding appears logical; a team can only attempt so many shots in a 48-minute game, so using attempts on 3-pointers directly limits the total attempts from 2-point range. 
+
+
+Finally, to bolster the conclusions made by the regression, bar graphs on shot-attempt differential and shot-ratios were made. The results of the graphs affirm our previous conclusions. 
+
+The differential graph shows that, despite the fact the Celtics are attempting more two-pointers than three-pointers, the difference between those attempts are steadily decreasing, but even more so since the 2014-15 NBA season. Prior to that season, every 15-20 years the Celtics would take twice as many threes as the previous period. But since 2014-15, they've taken nearly three times as many threes in just a short eight-year span.
+
+The ratio graphs also visualize and contextualize the shot volume of the Celtics. Both graphs (the three point shot ratio and two point shot ratio), if the bars were to sum, would sum to 1.00. But it felt necessary to split these ratios to see that relationship. 
+In the three point ratio graph, we can see that the Celtics have went from using the three point shot just under 10% of their successful shot attempt possessions between 1980 and 1997-98, and therefore relying on two pointers close to 90% of the time. Between 1998 and 2014, three point usage has been hovering around 20% - 30% and conversely, two point usage hovered around 70 - 80%. But right after the completion of the 2013-14 NBA Regular Season, a clear three point frenzy period bloomed and is continuing to bloom. The past season witnessed nearly 50% of the Celtics offensive possesions be a three. It's clear that this franchise reflects the evolution of today's game mantra:  *"threes are better than twos*. 
 
 
 ### Overall Conclusions
@@ -256,11 +327,13 @@ Our analysis only incorporates a small proportion of all the data that the NBA h
 
 **Alternate Approaches**
 
-We could scrape more per-game data (e.g., the Celtics averaging 20 threes-per-game in a given season) in addition to the seasonal totals and percentages in our current data set. In some capacity, per-game averages are easier to understand than totals because they illustrate a team's performance on a game-by-game basis rather than a single summation of its collective efforts. 
+We could scrape more per-game data (e.g., the Celtics averaging 20 threes-per-game in a given season) in addition to the seasonal totals and percentages in our current data set. In some capacity, per-game averages are easier to understand than totals because they illustrate a team's performance on a game-by-game basis rather than a single summation of its collective efforts. Comparing per-game data by season would then give a better illustrative view as we would avoid dealing with averages and loss of contextual data. 
 
 **Potential Future Directions**
 
-For future, larger-scale projects, we could collect data from all 30 NBA teams, including per-game stats and season totals. This approach would grant us a massive sample of data to work with, which in turn would allow us to develop perceptive insights about the league as a whole. Additionally, we could collect playoff data from several decades to compare and contrast our regular season findings to the postseason.Lastly, we could collect data about the 3-point attempt rates and percentages of players at each position across several decades. It would be interesting learn when front court and back court players began incorporating the 3-ball into their respective scoring repertoires. Moreover, exploring changes in the volume, percentage, and distribution of 3-pointers among players at different positions could help us illustrate how NBA basketball became the relatively positionless game it is today.  
+For future, larger-scale projects, we could collect data from all 30 NBA teams, including per-game stats and season totals. This approach would grant us a massive sample of data to work with, which in turn would allow us to develop perceptive insights about the league as a whole. Additionally, we could collect playoff data from several decades to compare and contrast our regular season findings to the postseason. Lastly, we could collect data about the 3-point attempt rates and percentages of players at each position across several decades. It would be interesting learn when front court and back court players began incorporating the 3-ball into their respective scoring repertoires. Moreover, exploring changes in the volume, percentage, and distribution of 3-pointers among players at different positions could help us illustrate how NBA basketball became the relatively positionless game it is today.  
+
+Another direction would be to evaluate our background further. As mentioned, today's NBA big men are developing an outside shot consistent enough to be a threat and spread out the team's halfcourt offense. It would be worth it to evaluate the shot frequency of these big men and really see how drastic or rather inconsequential these changes are on the team's offensive load. 
 
 
 # References
