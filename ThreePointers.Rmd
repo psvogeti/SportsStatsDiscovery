@@ -10,7 +10,6 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse) # convenient wrapper library for our data parsing
-library(readxl) # this is to read in our excel (.xlsx) data
 library(kableExtra) # this is to format our outputted tables #one more time
 library(ggplot2)
 ```
@@ -85,33 +84,6 @@ After cleaning, the first several rows of our data set look like this:
 ```{r, echo = FALSE}
 # import the data
 
-raw_data = read.csv("Bos_Box_Data_80_23.csv")
-
-#clean the data --> make column names match our descriptions & only select those columns 
-
-boston = raw_data %>%
-  rename(season = Season) %>%
-  rename(fgm = FG) %>%
-  rename(fga = FGA) %>%
-  rename(fg_pct = FG.) %>%
-  rename(thrpt_m = X3P) %>%
-  rename(thrpt_a = X3PA) %>%
-  rename(thrpt_pct = X3P.) %>%
-  rename(twopt_m = X2P) %>%
-  rename(twopt_a = X2PA) %>%
-  rename(twopt_pct = X2P.) %>%
-  rename(pts = PTS) %>% 
-  select(1,4:12, 24)
-
-#also deleted a duplicate row 
-boston = boston[-41, ]
-
-#display cleaned data 
-head(boston)
-
-```{r, echo = FALSE}
-# import the data
-
 raw_data = read.csv("../partner-data/Bos_Box_Data_80_23.csv")
 
 #clean the data --> make column names match our descriptions & only select those columns 
@@ -134,7 +106,6 @@ boston = boston[-41, ]
 
 #display cleaned data 
 head(boston)
-
 ```
 
 ### Data Summaries
