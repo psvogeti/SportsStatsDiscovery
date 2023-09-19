@@ -1,5 +1,5 @@
 ---
-title: "RoadToPlayoffs"
+title: "Road To The NBA Playoffs"
 author: "Pranav Vogeti, Niko Klekas"
 date: "2023-09-15"
 output: html_document
@@ -7,24 +7,100 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
 ```
 
-## R Markdown
+# Introduction
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+[placeholder]
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+### The Focus Question
 
-```{r cars}
-summary(cars)
+[placeholder]
+
+### Motivation
+
+[placeholder]
+
+
+# Background
+
+### About the Original Data
+
+[placeholder]
+
+
+**NOTE** This data will be made available to our Github ^[Link to Github: https://github.com/psvogeti/SportsStatsDiscovery/tree/data]
+
+
+### Data Description
+
+[placeholder]
+
+### The Key Variables
+
+* The key variables from this data set we will use for this excursion: 
+  - `var_name` variable definition
+  
+
+### Assumptions and Unusuality
+
+[placeholder] 
+
+
+
+### Report Intentions
+
+[placeholder]
+
+
+# Analysis
+
+### Data Cleanup
+
+After cleaning, the first several rows of our data set look like this: 
+```{r, echo = FALSE}
+# import the data
+raw_data = read.csv("../partner-data/Bos_Box_Data_80_23.csv")
 ```
 
-## Including Plots
+### Data Summaries
 
-You can also embed plots, for example:
+[placeholder]
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r, echo = FALSE}
+## placeholder
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+### Data Analysis
+
+
+#### [placeholder]
+
+[placeholder]
+
+```{r, echo = FALSE}
+## placeholder
+```
+
+### Discussion
+
+[placeholder]
+
+### Overall Conclusions
+
+
+#### Shortcomings and Limitations
+
+[placeholder]
+
+#### Alternate Approaches
+
+[placeholder]
+
+#### Potential Future Directions
+
+[placeholder]
+
+
+# References
