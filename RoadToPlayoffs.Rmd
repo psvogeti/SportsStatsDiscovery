@@ -61,7 +61,16 @@ library(tidyverse)
 After cleaning, the first several rows of our data set look like this: 
 ```{r, echo = FALSE}
 # import the data
-raw_data = read.csv("../partner-data/Bos_Box_Data_80_23.csv")
+raw_draft_data <- read.csv("partner-data/nba-lottery-draft-data.csv")
+
+format_draft_data <- raw_draft_data %>%
+  rename(
+    team = Team, 
+    season = Season,
+    season_outcome = Season_Outcome, 
+    lottery_status = Lottery_Status,
+    lottery_pick_count = Lottery_Pick_Count
+  )
 ```
 
 ### Data Summaries
