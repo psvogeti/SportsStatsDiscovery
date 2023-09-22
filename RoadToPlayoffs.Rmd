@@ -71,6 +71,7 @@ format_draft_data <- raw_draft_data %>%
     lottery_status = Lottery_Status,
     lottery_pick_count = Lottery_Pick_Count
   )
+#comment
 ```
 
 ### Data Summaries
