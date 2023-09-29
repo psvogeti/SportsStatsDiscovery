@@ -71,7 +71,10 @@ format_draft_data <- raw_draft_data %>%
     lottery_status = Lottery_Status,
     lottery_pick_count = Lottery_Pick_Count
   )
-#comment
+
+#convert team names to lowercase
+format_draft_data$season_outcome <- tolower(format_draft_data$season_outcome)
+format_draft_data$lottery_status <- tolower(format_draft_data$lottery_status)
 ```
 
 ### Data Summaries
