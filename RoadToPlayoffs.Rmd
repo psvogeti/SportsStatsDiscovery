@@ -12,16 +12,25 @@ library(tidyverse)
 
 # Introduction
 
-[placeholder]
+The National Basketball Association (NBA) is one of the world's premier global organizations that features the world's best basketball talent take the stage and compete for a World Championship. The path to the Championship is simple in speech only: be one of the top 16 teams after the regular season is over and compete against a potential of three additional teams in best of 7 series in what is known as the NBA Playoffs. The team that wins the playoffs is crowned World Champion and therefore the defending world champion for the next NBA season. 
+
+But what about the teams that do not make the playoffs? How are they able to improve and qualify for the Playoffs? To address these questions, the NBA designed a player draft, called the NBA Draft, where the top 60 pre-professional players get to hear their names called to play for an NBA team. The NBA Draft, therefore, is meant to act as a balancing agent for the developing franchise to invest and grow their team while still letting veteran and successful franchises develop young talent of their own as well. 
+
+Before the draft, the NBA assigns the non-playoff teams to a Lottery designation. The Lottery is meant to classify, as of today, the top 11 draft picks on the draft board. The idea is that the teams that have the worst finishes during the regular season are guaranteed an instant impact player from the Lottery draft class. This process continues each year with the intent of creating a competitive league for all teams. 
+
+It is not a guarantee that the lottery players will be impactful to a team. There are many variables to consider, including age, health, position, player rotation, player capital, player intention, and many more. However, there is very little downside into investing into a lottery pick, if any. NBA teams have been accused by fans and organizations alike for intentionally performing bad in order to obtain a better draft pick.  
 
 ### The Focus Question
 
-[placeholder]
+Our question then, is this: 
+
+**How impactful are lottery picks for a team attempting to return to the playoffs?**
 
 ### Motivation
 
-[placeholder]
+Generally,teams do benefit from a lottery pick or a collection of lottery picks. Teams do trade for them or a higher pick than the current pick they possess. However, there are several notable instances where even having a lottery designation for several years has little to no impact on subsequent playoff appearances. For example, the Sacramento Kings appeared in last season's playoffs (2022-23 NBA season) but faced the longest playoff drought in NBA history of 16 seasons (2006 Playoffs to 2022 Playoffs). The Charlotte Hornets currently face a playoff drought dating back to the 2016 NBA playoffs. What about with these teams? Theory suggests that they should have benefited immensely from successive lottery drafts, but the observations prove otherwise. 
 
+The opposite also begs this question. Consider the Golden State Warriors. It is generally agreed that the Warriors were the NBA's most dominant team during the 2010s decade. During this decade, the warriors have made the 2014 Playoffs through the 2019 Playoffs, clinching three NBA championships during that span. They then missed the 2020 Playoffs and the 2021 Playoffs before clinching yet another NBA championship in the 2022 Playoffs and having a Western Conference Championship appearance in the 2023 Playoffs. What then is the best approach to evaluate their lone two-year drought? What did they do or have that the Kings and Hornets did not do or do not have? Did they draft well or did they already have the championship-level resources and we can attribute those two absences as flukes? 
 
 # Background
 
