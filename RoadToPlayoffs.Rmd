@@ -22,9 +22,13 @@ It is not a guarantee that the lottery players will be impactful to a team. Ther
 
 ### The Focus Question
 
-Our question then, is this: 
+Our question is: 
 
-**How impactful are lottery picks for a team attempting to return to the playoffs?**
+***
+
+*How impactful are lottery picks for a team attempting to return to the playoffs?*
+
+***
 
 ### Motivation
 
@@ -89,10 +93,37 @@ format_draft_data$lottery_status <- tolower(format_draft_data$lottery_status)
 
 
 ```{r playoff-data-setup}
-
 playoff_data <- format_draft_data %>% 
-  group_by(team, season) %>% 
-  mutate(group_ct = n())
+  group_by(team) %>%
+  mutate(drought_number = 0)
+
+##reverse so that we can iterate chronologically
+playoff_data <- playoff_data[nrow(playoff_data):1,]
+
+
+
+WAS_data_20_seasons <- playoff_data %>%
+  filter(team == "WAS") %>%
+  slice(1:40) %>%
+  mutate(next_season_outcome = lead(season_outcome)) %>%
+  mutate(drought_start = ifelse(season_outcome == "made" & next_season_outcome != "made", 1, 0)) %>%
+  mutate(drought_number = cumsum(drought_start)) %>%
+  select(team, season, season_outcome, next_season_outcome, drought_start, drought_number) %>%
+  group_by(drought_number) %>%
+  mutate(drought_length = n()) %>%
+  mutate(drought_length = drought_length - 1)
+  
+```
+
+```{r}
+playoff_data_2 <- playoff_data %>% 
+  group_by(team) %>%
+  mutate(next_season_outcome = lead(season_outcome)) %>%
+  mutate(drought_start = ifelse(season_outcome == "made" & next_season_outcome != "made", 1, 0)) %>%
+  mutate(drought_number = cumsum(drought_start)) %>%
+  select(team, season, season_outcome, next_season_outcome, drought_start, drought_number) %>%
+  group_by(drought_number) %>%
+  mutate(d_n_count = n())
 ```
 
 
@@ -101,7 +132,7 @@ playoff_data <- format_draft_data %>%
 [placeholder]
 
 ```{r, echo = FALSE}
-## placeholder
+ & lag(playoff_data$season_outcome[i]) != "made"
 ```
 
 ### Data Analysis
