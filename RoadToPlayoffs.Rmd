@@ -16,7 +16,7 @@ The National Basketball Association (NBA) is one of the world's premier global o
 
 But what about the teams that do not make the playoffs? How are they able to improve and qualify for the Playoffs? To address these questions, the NBA designed a player draft, called the NBA Draft, where the top 60 pre-professional players get to hear their names called to play for an NBA team. The NBA Draft, therefore, is meant to act as a balancing agent for the developing franchise to invest and grow their team while still letting veteran and successful franchises develop young talent of their own as well. 
 
-Before the draft, the NBA assigns the non-playoff teams to a Lottery designation. The Lottery is meant to classify, as of today, the top 11 draft picks on the draft board. The idea is that the teams that have the worst finishes during the regular season are guaranteed an instant impact player from the Lottery draft class. This process continues each year with the intent of creating a competitive league for all teams. 
+Before the draft, the NBA assigns the non-playoff teams to a Lottery designation. As of today, the top 11 draft picks make up the Lottery. The idea is that the teams that have the worst finishes during the regular season are guaranteed an instant impact player from the Lottery draft class. This process continues each year with the intent of creating a competitive league for all teams. 
 
 It is not a guarantee that the lottery players will be impactful to a team. There are many variables to consider, including age, health, position, player rotation, player capital, player intention, and many more. However, there is very little downside into investing into a lottery pick, if any. NBA teams have been accused by fans and organizations alike for intentionally performing bad in order to obtain a better draft pick.  
 
@@ -68,10 +68,11 @@ The opposite also begs this question. Consider the Golden State Warriors. It is 
 ### Data Cleanup
 
 After cleaning, the first several rows of our data set look like this: 
-```{r, echo = FALSE}
+```{r data-setup, echo = FALSE}
 # import the data
 raw_draft_data <- read.csv("partner-data/nba-lottery-draft-data.csv")
 
+# rename the headers
 format_draft_data <- raw_draft_data %>%
   rename(
     team = Team, 
@@ -85,6 +86,15 @@ format_draft_data <- raw_draft_data %>%
 format_draft_data$season_outcome <- tolower(format_draft_data$season_outcome)
 format_draft_data$lottery_status <- tolower(format_draft_data$lottery_status)
 ```
+
+
+```{r playoff-data-setup}
+
+playoff_data <- format_draft_data %>% 
+  group_by(team, season) %>% 
+  mutate(group_ct = n())
+```
+
 
 ### Data Summaries
 
